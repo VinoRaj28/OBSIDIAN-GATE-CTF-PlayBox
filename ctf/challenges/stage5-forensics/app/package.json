@@ -1,8 +1,0 @@
-{
-  "name": "obsidian-stage5-forensics",
-  "version": "1.0.0",
-  "description": "OBSIDIAN GATE - Stage 5: The Workstation Image",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.18.2" }
-}

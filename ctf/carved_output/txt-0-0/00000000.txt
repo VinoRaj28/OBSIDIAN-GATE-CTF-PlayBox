@@ -1,5 +1,0 @@
------BEGIN OBSIDIAN FLAG-----
-Case file: VD-4471 / Ticket #4471
-Recovered from workstation snapshot prior to remote wipe.
-OBSIDIAN{d3l3t3d_bu7_n0t_g0n3}
------END OBSIDIAN FLAG-----

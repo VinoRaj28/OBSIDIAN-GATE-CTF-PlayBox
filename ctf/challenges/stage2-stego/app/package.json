@@ -1,8 +1,0 @@
-{
-  "name": "obsidian-stage2-stego",
-  "version": "1.0.0",
-  "description": "OBSIDIAN GATE - Stage 2: Hidden in Plain Sight",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.18.2" }
-}

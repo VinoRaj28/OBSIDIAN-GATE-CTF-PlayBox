@@ -1,8 +1,0 @@
-{
-  "name": "obsidian-gate-portal",
-  "version": "1.0.0",
-  "description": "OBSIDIAN GATE - Unified Challenge Portal",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.18.2" }
-}
