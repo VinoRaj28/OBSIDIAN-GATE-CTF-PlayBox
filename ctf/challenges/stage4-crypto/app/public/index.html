@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Network Ops - Comms Archive</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; color: #1a1a2e; }
+header { background: #0d1b2a; color: white; padding: 24px 48px; }
+header h1 { margin: 0; font-size: 22px; }
+header p { margin: 4px 0 0; color: #a8b3c5; font-size: 13px; }
+main { padding: 48px; max-width: 800px; margin: auto; }
+.card { background: white; padding: 28px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.card h2 { margin-top: 0; }
+.meta { color: #666; font-size: 13px; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+.meta span { display: inline-block; margin-right: 18px; }
+pre { background: #0d1b2a; color: #a8e6a3; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+.note { color: #666; font-size: 13px; margin-top: 14px; background: #f4f6f8; padding: 10px 14px; border-radius: 6px; }
+a.dl { display: inline-block; margin-top: 16px; background: #4cc9f0; color: #0d1b2a; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Veridian Dynamics — Network Operations</h1>
+  <p>Comms &amp; VPN Log Archive</p>
+</header>
+<main>
+  <div class="card">
+    <h2>Flagged Transmission</h2>
+    <div class="meta">
+      <span>Ref: Ticket #4471</span>
+      <span>Source: mail relay monitoring</span>
+      <span>Account: M. Cole (offboarded)</span>
+    </div>
+    <p>Outbound transmission captured shortly before the associated VPN access was revoked.
+    Payload uses a legacy substitution cipher from an old comsec awareness module — no key
+    on file for this account.</p>
+    <pre>VXKMQBIBI ECT IQEYY YEQWA. TUDW TPDVNRG KFMV LAEF EWBHZ TBIMXPW.
+BHR CEELRNF CJMEB UMMNDRJ BKM SNHI CWFITVJR RA GQSPPWJMG TAFO AVMN.
+LO AJX KWXKH GCI TWUXOEVXV DSV ATVME, BKMY NMI NIWKHVIK KPH ICPZWJ TROS AJA.
+ZN WPIF XLRVQML TJIJ LREN, HNI KPH JAPFYG ZHTAL. GSXQQ IS zxscm ZQTU KEJAZWRQ Nl4u0eU3t4y!
+IZVZNLKAGDSE KRLE SJV KPH VEKO GFCUQEE: JFJQGQAA{q1k3e3z3_f1xh3e_xv4ts3g}
+MNQ JJ KZDVSZDWJQRV.</pre>
+    <a class="dl" href="files/transmission.txt">Export raw log</a>
+    <p class="note">Analyst note: default decoding tools don't cover this cipher class — non-alphanumeric
+    characters are logged unmodified by the relay.</p>
+  </div>
+</main>
+</body>
+</html>

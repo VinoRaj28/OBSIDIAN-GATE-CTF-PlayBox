@@ -1,0 +1,17 @@
+
+Scalpel version 1.60 audit file
+Started at Fri Oct  2 10:42:00 2026
+Command line:
+scalpel -c scalpel_flag.conf -o carved_output/ disk.dd 
+
+Output directory: /home/sajana/ctf/carved_output
+Configuration file: scalpel_flag.conf
+
+Opening target "/home/sajana/ctf/disk.dd"
+
+The following files were carved:
+File		  Start			Chop		Length		Extracted From
+00000000.txt      4526080		NO              180		disk.dd
+
+
+Completed at Fri Oct  2 10:42:00 2026

@@ -1,0 +1,80 @@
+services:
+  stage1-osint:
+    build: ./challenges/stage1-osint
+    container_name: obsidian-stage1-osint
+    ports:
+      - "8080:8080"
+    networks:
+      - obsidian-net
+
+  stage2-stego:
+    build: ./challenges/stage2-stego
+    container_name: obsidian-stage2-stego
+    ports:
+      - "5001:5001"
+    networks:
+      - obsidian-net
+
+  stage3-web:
+    build: ./challenges/stage3-webapp/web
+    container_name: obsidian-stage3-web
+    ports:
+      - "8081:80"
+    environment:
+      - DB_HOST=stage3-db
+      - DB_USER=veriportal
+      - DB_PASS=veriportal_pw
+      - DB_NAME=veriportal
+    depends_on:
+      - stage3-db
+    networks:
+      - obsidian-net
+
+  stage3-db:
+    image: mysql:8
+    container_name: obsidian-stage3-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpw
+      - MYSQL_DATABASE=veriportal
+      - MYSQL_USER=veriportal
+      - MYSQL_PASSWORD=veriportal_pw
+    volumes:
+      - ./challenges/stage3-webapp/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - obsidian-net
+
+  stage4-crypto:
+    build: ./challenges/stage4-crypto
+    container_name: obsidian-stage4-crypto
+    ports:
+      - "8082:8082"
+    networks:
+      - obsidian-net
+
+  stage5-forensics:
+    build: ./challenges/stage5-forensics
+    container_name: obsidian-stage5-forensics
+    ports:
+      - "8085:8085"
+    networks:
+      - obsidian-net
+
+  stage6-linux:
+    build: ./challenges/stage6-linux
+    container_name: obsidian-stage6-linux
+    ports:
+      - "2222:22"
+    networks:
+      - obsidian-net
+
+  portal:
+    build: ./challenges/portal
+    container_name: obsidian-portal
+    ports:
+      - "8090:8090"
+    networks:
+      - obsidian-net
+
+networks:
+  obsidian-net:
+    driver: bridge
