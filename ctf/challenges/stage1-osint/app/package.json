@@ -1,0 +1,8 @@
+{
+  "name": "obsidian-stage1-osint",
+  "version": "1.0.0",
+  "description": "OBSIDIAN GATE - Stage 1: The Digital Footprint",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "express": "^4.18.2" }
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CASE FILE — VD-4471</title>
+<style>
+:root {
+  --bg: #0a0a0b;
+  --bg-line: rgba(255,255,255,0.02);
+  --box: #17161a;
+  --box2: #111013;
+  --border: #322f2a;
+  --text: #e7e2d3;
+  --muted: #8a8578;
+  --gold: #c9a227;
+  --green: #6f9271;
+  --red: #b3121f;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background:
+    repeating-linear-gradient(135deg, var(--bg-line) 0px, var(--bg-line) 1px, transparent 1px, transparent 26px),
+    radial-gradient(ellipse at top, #131215 0%, var(--bg) 60%);
+  color: var(--text);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+header { position: relative; text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px dashed var(--border); }
+header .tag {
+  display: inline-block; background: var(--box2); color: var(--gold);
+  border: 1px solid var(--border); padding: 4px 12px; font-size: 12px; letter-spacing: 2px;
+  margin-bottom: 14px; text-transform: uppercase;
+}
+h1 { color: var(--text); margin: 0 0 6px; font-size: 2em; letter-spacing: 3px; text-transform: uppercase; }
+header p.tagline { color: var(--muted); max-width: 640px; margin: 6px auto 0; font-size: 13px; line-height: 1.7; letter-spacing: 1px; }
+header p.subtitle { color: var(--gold); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin: 10px 0 0; }
+
+.stamp {
+  position: absolute; top: 6px; right: 6px;
+  border: 3px double var(--red); color: var(--red);
+  font-weight: bold; letter-spacing: 3px; font-size: 12px;
+  padding: 6px 14px; transform: rotate(-8deg); opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.progress-bar-wrap { margin: 28px 0; }
+.progress-bar-wrap .label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+.progress-bar { background: var(--box2); height: 8px; border: 1px solid var(--border); }
+.progress-bar-fill { height: 100%; background: var(--red); width: 0%; transition: width .3s ease; }
+
+.filters { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+.filters button {
+  background: var(--box2); color: var(--muted); border: 1px solid var(--border);
+  padding: 7px 16px; cursor: pointer; font-size: 12px; font-family: inherit;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.filters button.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); font-weight: bold; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; }
+
+.card {
+  background: var(--box); border: 1px solid var(--border); border-top: 3px solid var(--gold);
+  padding: 20px; display: flex; flex-direction: column; gap: 10px; position: relative;
+}
+.card.solved { border-top-color: var(--green); opacity: 0.88; }
+.card .top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card .stage-num { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+.card h2 { margin: 2px 0 0; font-size: 1.1em; color: var(--text); letter-spacing: 1px; }
+.card .category { color: var(--gold); font-size: 11px; margin: 2px 0 0; letter-spacing: 1px; text-transform: uppercase; }
+.card .diff {
+  font-size: 10px; padding: 3px 9px; white-space: nowrap; font-weight: bold;
+  background: var(--box2); color: var(--muted); border: 1px solid var(--border);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+.card p.blurb { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; flex-grow: 1; }
+.card .conn { background: var(--box2); color: var(--gold); border-left: 2px solid var(--red); padding: 8px 10px; font-size: 12px; word-break: break-all; }
+.card .conn a { color: var(--gold); text-decoration: none; }
+.card .conn a:hover { text-decoration: underline; }
+.card .conn .fallback { display: block; margin-top: 4px; font-size: 11px; color: var(--muted); }
+.card .conn .fallback a { color: var(--muted); }
+
+.solve-row { display: flex; gap: 6px; margin-top: 4px; }
+.solve-row input {
+  flex: 1; background: var(--box2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 10px; font-size: 13px; font-family: inherit;
+}
+.solve-row button {
+  background: transparent; color: var(--gold); border: 1px solid var(--gold);
+  padding: 8px 14px; font-weight: bold; cursor: pointer; font-size: 12px;
+  letter-spacing: 1px; text-transform: uppercase; font-family: inherit;
+}
+.solve-row button:disabled { opacity: 0.4; cursor: default; border-color: var(--border); color: var(--muted); }
+
+.status-msg { font-size: 12px; min-height: 16px; letter-spacing: 0.5px; }
+.status-msg.correct { color: var(--green); }
+.status-msg.wrong { color: var(--red); }
+
+.solved-tag {
+  position: absolute; top: -12px; right: 14px; border: 2px solid var(--green); color: var(--green);
+  background: var(--bg); font-size: 11px; padding: 3px 10px; font-weight: bold;
+  transform: rotate(-6deg); letter-spacing: 2px; text-transform: uppercase;
+}
+
+.notes-section { margin-top: 56px; }
+.notes-section h2 {
+  text-align: center; letter-spacing: 4px; text-transform: uppercase; color: var(--text);
+  border-top: 2px dashed var(--border); border-bottom: 2px dashed var(--border);
+  padding: 14px 0; font-size: 1.1em;
+}
+.note-entry { background: var(--box); border: 1px solid var(--border); border-left: 3px solid var(--gold); margin-bottom: 10px; }
+.note-entry summary {
+  cursor: pointer; padding: 14px 18px; font-size: 13px; letter-spacing: 1px;
+  color: var(--text); list-style: none; display: flex; justify-content: space-between; gap: 10px;
+}
+.note-entry summary::-webkit-details-marker { display: none; }
+.note-entry summary .marker { color: var(--gold); }
+.note-entry summary:hover { background: var(--box2); }
+.note-entry[open] summary { border-bottom: 1px dashed var(--border); }
+.note-entry .note-body { padding: 16px 18px 20px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.note-entry .note-body code { background: var(--box2); color: var(--gold); padding: 2px 6px; border: 1px solid var(--border); font-size: 12px; }
+.dependency-line {
+  margin-top: 18px; text-align: center; color: var(--red); font-size: 12px;
+  letter-spacing: 1px; border: 1px dashed var(--red); padding: 10px; background: var(--box2);
+}
+
+footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 48px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="stamp">Active</span>
+  <span class="tag">Veridian Dynamics · Internal Security</span>
+  <h1>Case File — VD-4471</h1>
+  <p class="subtitle">Investigator's Dashboard</p>
+  <p class="tagline">
+    Insider incident, Veridian Dynamics. Subject: M. Cole (offboarded). Evidence trail runs from a
+    public résumé to a root shell on his personal server. Work each exhibit in order.
+  </p>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="label"><span id="progress-label">0 / 6 case files closed</span><span id="progress-pct">0%</span></div>
+  <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="filters" id="filters">
+  <button data-filter="all" class="active">All</button>
+  <button data-filter="easy">Easy</button>
+  <button data-filter="moderate">Moderate</button>
+  <button data-filter="moderate-hard">Moderate-Hard</button>
+  <button data-filter="hard">Hard</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="notes-section">
+  <h2>Case Notes</h2>
+
+  <details class="note-entry">
+    <summary><span>Case Note 1 — Digital Footprint</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      Everyone leaves something behind when they walk out a door. Cole's not on the payroll
+      anymore, but he's still on the internet. Start with what the company itself says about
+      him — then look past what it says. People rarely scrub everything. Sometimes what they
+      forget to wipe is sitting in the file itself, not on the page.
+    </div>
+  </details>
+
+  <details class="note-entry">
+    <summary><span>Case Note 2 — Hidden in Plain Sight</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      He mentioned a backup. Casual, almost bragging — the kind of thing people say when they
+      think no one's paying attention. Two files, apparently. One's worth your time, one isn't.
+      And that badge number he can't stop reusing? Old habits don't just describe a person.
+      Sometimes they unlock things.
+    </div>
+  </details>
+
+  <details class="note-entry">
+    <summary><span>Case Note 3 — The Vendor Portal</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      He all but told us where the company's weak point was, in his own words. An internal tool
+      nobody hardened properly. Doors that ask politely for a password sometimes open if you ask
+      the question differently — if you know how questions can be broken.
+    </div>
+  </details>
+
+  <details class="note-entry">
+    <summary><span>Case Note 4 — The Comms Archive</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      Somewhere in the mess of internal tickets, one number keeps surfacing — the same one
+      attached to his badge. Follow it far enough and there's a message, wrapped twice over so a
+      casual glance won't make sense of it. Whoever wrote it wasn't hiding from a machine. They
+      were hiding from someone who wasn't paying close attention.
+    </div>
+  </details>
+
+  <details class="note-entry">
+    <summary><span>Case Note 5 — The Returned Device</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      Company policy: every device gets imaged before it's wiped, no exceptions. Cole's laptop
+      went through the process like everyone else's — except something was missing when it came
+      back. Deleted doesn't mean destroyed. It just means harder to find, not impossible.
+    </div>
+  </details>
+
+  <details class="note-entry">
+    <summary><span>Case Note 6 — Full Compromise</span><span class="marker">+</span></summary>
+    <div class="note-body">
+      Somewhere in that decoded message was more than words — a way in. His own machine, not the
+      company's. People who run things themselves get comfortable. Comfortable people leave
+      scripts lying around that anyone can edit, and forget that someone else is always watching
+      the clock too.
+    </div>
+  </details>
+
+  <div class="dependency-line">Dependency: Case Note 6 requires the credentials found in Case Note 4.</div>
+</div>
+
+<footer>OBSIDIAN GATE · IE3132 Penetration Testing · Play Box</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
